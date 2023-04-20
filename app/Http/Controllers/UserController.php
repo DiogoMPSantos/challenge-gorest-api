@@ -26,7 +26,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $body = $request->except('token');
+        $token = $request->header('Authorization');
+        $user = Http::withHeaders(["Authorization" => $token])->post("https://gorest.co.in/public/v2/users/", $body);
+        return response()->json([
+            'new_user' =>json_decode($user->body())
+        ]);
     }
 
     /**
