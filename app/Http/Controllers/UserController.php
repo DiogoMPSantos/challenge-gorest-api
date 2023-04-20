@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = $request->query('page') ?? 1;
+        $per_page = $request->query('per_page') ?? 20;
+        $users = Http::get("https://gorest.co.in/public/v2/users?page={$page}&per_page={$per_page}");
+        return response()->json([
+            'users' =>json_decode($users->body())
+        ]);
     }
 
     /**
@@ -28,7 +34,10 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = Http::get("https://gorest.co.in/public/v2/users/{$id}");
+        return response()->json([
+            'user' =>json_decode($user->body())
+        ]);
     }
 
     /**
