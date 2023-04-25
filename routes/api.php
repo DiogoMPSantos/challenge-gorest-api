@@ -24,4 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('users', UserController::class);
 Route::resource('users.posts', UserPostController::class);
 Route::resource('posts.comments', UserPostCommentController::class);
- 
+
+Route::get('/posts', [UserPostController::class, 'index']); 
+
+Route::delete('/posts', [UserPostController::class, 'destroy']); 
